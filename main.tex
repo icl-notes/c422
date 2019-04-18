@@ -1,0 +1,628 @@
+\documentclass[12pt,twoside]{article}
+
+\newcommand{\reporttitle}{422 Computational Finance}
+\newcommand{\reporttype}{Notes for 2016/2017}
+
+% include files that load packages and define macros
+\input{includes} % various packages needed for maths etc.
+\input{notation} % short-hand notation and macros
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+% front page
+\input{titlepage}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% Main document
+\section{Theory of Interest}
+
+\begin{enumerate}
+\item Relationship between effective interest rate $r_{eff}$ and nominal rate ($m$ period compounding), $r^{(m)}$:
+	\begin{align*}
+		1+r_{eff} = \left(1+\frac{r^{(m)}}{m}\right)^{m}
+	\end{align*}
+
+\item \textbf{Definitions.} An ideal bank
+	\begin{itemize}
+		\item applies the same interest rates for borrowing and lending
+		\item no transaction costs
+		\item has the same rate for any size of principal
+	\end{itemize}
+
+\item \textbf{Definitions.} An ideal bank has an interest value that is independent of the length of time of which it applies, it is called a constant ideal bank.
+
+\item \textbf{Theorem.} The cash flow streams $\lbrace x_i \rbrace_{i=1}^n$ and $\lbrace y_i \rbrace_{i=1}^n$ are equivalent for a constant ideal bank with interest rate $r$ if and only if their PVs are equal. 
+
+\item \textbf{Definitions.} The spot rate $s_t$ is the annualized interest rate charged for money held from the present until time $t$. Properties of spot rate
+	\begin{itemize}
+		\item Long commitments tend to offer higher interest rates than short commitments
+		\item The spot rate curve undulates around in time.
+		\item Spot rate curve is normally curved if it is increasing; and inverted if it is decreasing.
+		\item Spot rate curve is smooth.
+	\end{itemize}
+
+\item \textbf{Definitions.} Forward rate between times $t_1$ and $t_2$ is denoted by $f_{t_1,t_2}$. It is the interest rate charged for borrowing money at time $t_1$ which is to be repaid at $t_2$. $f_{t_1,t_2}$ is agreed on today.
+\begin{align*}
+	(1+s_{t_2})^{t_2} = (1+s_{t_1})^{t_1}(1+f_{t_1, t_2})^{t_2-t_1}
+\end{align*}
+
+\item The forward rate $f_{1,2}$ is 
+\begin{itemize}
+\item the implied rate for money loaned for 1 year, a year from now
+\item the market expectation today of what the 1-year spot rate will be next year
+\end{itemize}
+
+\end{enumerate}
+
+\newpage
+
+
+\section {Fixed Income Securities}
+\begin{enumerate}
+	\item Important sequences:
+		\begin{itemize}
+			\item Geometric Progression
+				\begin{align*}
+					S_n &= \sum_{k=1}^n ar^{k-1}  =\frac{a(1-r^n)}{1-r}\\
+					S_\infty &= \sum_{k=0}^\infty ar^{k-1} = \frac{1}{1-r}\\
+				\end{align*}
+			\item Arithmetic - Geometric Progression
+				\begin{align*}
+					S_n & = \sum_{k=1}^n\left[a + (k-1)d\right]r^{k-1}= \frac{a-\left[a+(n-1)d\right]r^n}{1-r}+\frac{dr(1-r^{n-1})}{(1-r)^2}
+				\end{align*}
+			\end{itemize}
+	
+	\item Price of various basic securities
+		\begin{itemize}
+			\item Annuities
+				\begin{align*}
+					a_{\overline{n}\mid} & = \frac{1-v^n}{r} &
+					a_{\overline{n}\mid}^{(m)} & = \frac{1-v^n}{r^{m}}
+				\end{align*}
+			\item Perpetuity
+				\begin{align*}
+					a_{\overline{\infty}\mid} & = \frac{1}{r}&
+					a_{\overline{\infty}\mid} & = \frac{1}{r^{m}}\\
+				\end{align*}
+				
+			\item  Varying annuity
+				\begin{align*}
+					(Ia)_{\overline{n}\mid} & = Pa_{\overline{n}\mid} + D\left[\frac{a_{\overline{n}\mid} - nv^n}{i}\right]
+				\end{align*}
+				
+			\item Bond
+				\begin{align*}
+					P & = NCa_{\overline{n}\mid} + Nv^n
+				\end{align*}
+		\end{itemize}
+
+	\item \textbf{Definition.} A bond's \textbf{yield to maturity} if the flat interest rate at which the PV of the CFs is equal to the current price. The bond's \textbf{current yield} is $\frac{NC}{P}$.
+		\begin{itemize}
+			\item There's an inverse relationship between price and yield
+			\item The longer the time to maturity, the more sensitive is the price of the bond to the yield (think of duration!)
+			\item If yield to maturity is the same as the coupon rate, the bond price would be the face value
+		\end{itemize}
+		
+	\item \textbf{Duration.} Duration measures the sensitivity of the bond with respect to the interest rate
+		\begin{align*}
+			D_{mac}& = \frac{\sum_{t=1}^n t\times PV_t }{\sum_{t=1}^n PV_t}\\
+			D_{mod}& = -\frac{1}{P(r_0)}\left.\frac{dP(r)}{dr}\right\vert_{r=r_0} = \frac{D_{mac}}{(1+r_0)}
+		\end{align*}
+		
+	\item \textbf{Convexity.} Convexity is defined as
+		\begin{align*}
+			C	&=\frac{1}{P(r_0)}\left.\frac{d^2P(r)}{dr^2}\right\vert_{r=r_0}
+				=\frac{1}{P(r_0)}\sum_{t=1}^n \frac{t^2PV_t}{(1+r_0)^2}
+		\end{align*}
+	
+	\item Estimation of bond price change
+		\begin{align*}
+			\Delta P \approx -D_{mod}P(r_0)\Delta r + \frac{1}{2}P(r_0) (\Delta r)^2
+		\end{align*}
+
+	\item \textbf{Immunization.} Let $A$ be assets and $L$ be liabilities.
+		\begin{itemize}
+			\item $PV(A) = PV(L)$
+			\item $D(A) = D(L)$
+			\item $C(A) > C(L)$
+		\end{itemize}
+
+\end{enumerate}
+
+\newpage
+
+\section{Mean Variance Portfolio Theory}
+\begin{enumerate}
+\item A portfolio's total return and rate of return are
+	\begin{align*}
+		R = \sum_i^n w_iR_i	&&
+		r  = \sum_i^n w_ir_i
+	\end{align*}
+
+\item Mean and variance of portfolio return
+\begin{align*}
+	\overline{r} 	= \mathbb{E}(r) = \sum_{i=1}^n w_i \overline(r)_i		&&
+	\sigma^2 		= \mathbb{V}(r) = \sum_{i,j=1}^n w_iw_j\sigma_{ij}
+\end{align*}
+
+\item Assumptions of the Markowitz model:
+\begin{itemize}
+	\item Investors consider each investment alternative as being represented by a probability distribution of expected returns over some holding period.
+	\item Investors maximize one-period expected utility and their utility curves demonstrate diminishing marginal utility of wealth.
+	\item Investors estimate risk on basis of variability of expected returns and base decisions solely on expected return and risk.
+	\item Investors prefer higher returns to lower risk and lower risk for the same level of return
+\end{itemize}
+
+\item Markowitz Model:
+\begin{itemize}
+	\item Assumed that there are $n$ risky assets with mean return $\lbrace \overline{r}_i\rbrace_{i=1}^n$ and covariances $\lbrace \sigma_{ij}\rbrace_{i,j=1}^n$, the portfolio has mean return and variance
+	\begin{align*}
+		\overline{r}_P	= \sum_{i=1}^n w_i \overline{r}_i	&&
+		\sigma_P^2		= \sum_{i,j=1}^n w_iw_j\sigma_{ij}
+	\end{align*}
+	
+	\item The Markowitz model is then an optimization problem to minimize the variance subject to a portfolio target returns. 
+	\begin{align*}
+		\min_{w_i, w_i}	& \frac{1}{2}\sum_{i,i=1}^n w_i\sigma_{ij}w_j = \frac{1}{2}\sigma^2_P\\
+		\text{s.t.  	}		& \sum_{i=1}^n w_i\overline{r}_i = \overline{r}_P\\
+								&	\sum_{i=1}^n w_i = 1
+	\end{align*}
+	
+	This problem can be solve by introducing the Lagrange multipliers.
+	\begin{align*}
+		L(w) & = \frac{1}{2}\sum_{i,i=1}^n w_i\sigma_{ij}w_j  - \lambda \left(\sum_{i=1}^n w_i\overline{r}_i - r_P\right) - \mu \left(\sum_{i=1}^n w_i - 1\right)
+	\end{align*}
+	
+	The mean-variance set is obtained by plotting the minimal $\sigma_P^2$ for different $\overline{r}_P$. The efficient frontier is the top half of the mean-variance set.
+	
+	\item Solution to the model can be obtained by solving the linear equations
+	\begin{align*}
+			w_i:			&\sum_{i=1}^n \sigma_{ij}w_j - \lambda \overline{r}_i - \mu = 0\\
+			\lambda:	&\sum_{i=1}^n w_i\overline{r}_i = \overline{r}_P\\
+			\mu:			&\sum_{i=1}^n w_i = 1
+	\end{align*}		
+\end{itemize}
+
+	\item In vector notation:
+	\begin{align*}
+			\min_{\vec{w}}	\text{  }	& \frac{1}{2}\vec{w}^\top\vec{\Sigma} \vec{w}\\
+			\text{s.t.  	}						& \vec{w}^\top\overline{\vec{r}} - \overline{r}_P = 0\\
+													&	\vec{w}^\top \vec{1} - 1 = 0
+	\end{align*}
+	
+	\begin{align*}
+		L(\vec{w}, \lambda, \mu) &= \frac{1}{2}\vec{w}^\top\vec{\Sigma} \vec{w} - \lambda \left(\vec{w}^\top\overline{\vec{r}} - \overline{r}_P \right) - \mu (\vec{w}^\top \vec{1} -1)\\
+		&\begin{bmatrix}
+			\vec{\Sigma}						& 	- \overline{\vec{r}}	& - \vec{1} \\
+		 	- \overline{\vec{r}}^\top	& 0 								& 0\\
+			\vec{1}^\top						& 0 								& 0
+		\end{bmatrix}
+		\begin{bmatrix}
+		\vec{w}\\
+		\lambda \\
+		\mu
+		\end{bmatrix}
+		= \begin{bmatrix}
+		\vec{0}		\\
+		-\overline{r}_P\\
+		-1
+		\end{bmatrix}
+	\end{align*}
+	
+	\item The above formulation assume short selling is permitted. However, if there is no short selling, we need to add the constraints for the weights to be positive.
+	
+	\item Estimation of the parameters can be done using historical data and MLE.
+		\begin{align*}
+			\hat{r} 				& = \frac{1}{n}\sum_{i=1}^n r_i\\
+			\hat{\sigma^2}	& = \frac{1}{n-1}\sum_{i=1}^n (r_i-\hat{r})^2\\
+			\hat{\sigma}_{ab}& = \frac{1}{n-1} \sum_{i=1}^n (r_{a,i}-\hat{r}_a)(r_{b,i}-\hat{r}_b)
+		\end{align*}
+
+\end{enumerate}
+
+\section{Capital Asset Pricing Model}
+\begin{enumerate}
+	\item \textbf{The Two-Fund Theorem.} Let $(\vec{w}_1, \lambda_1, \mu_1)$ and $(\vec{w}_2, \lambda_2, \mu_2)$ be the Markowitz solutions for $\overline{r}_P^1$ and $\overline{r}_P^2$. Then , the Markowitz solution for 
+		\begin{align*}
+			\overline{r}_P^3 = \alpha \overline{r}_P^1 + (1-\alpha)\overline{r}_P^2
+		\end{align*}
+is given by
+		\begin{align*}
+			(\vec{w}_3, \lambda_3, \mu_3) = \alpha(\vec{w}_1, \lambda_1, \mu_1) + (1-\alpha)(\vec{w}_2, \lambda_2, \mu_2).
+		\end{align*}
+The implication of the two fund theorem is that investors seeking efficient portfolios need to only invest in combinations of two efficient funds. There is no need for anyone to buy individual stocks.
+
+	\item \textbf{The One-Fund Theorem.} When risk-free borrowing and lending are available, there is a single fund $F$ of risky assets such that any efficient portfolio can be constructed as a combination of the fund $F$ and the risk free asset. 
+	
+	The implication is that every investor will buy a combination of the fund and the risk-free assets. Hence, $F$ must be the market portfolio.
+	
+	 \item \textbf{Capital Market Line.} Given a risk-free asset, the efficient frontier is called the capital market line. Any asset on the CML satisfies
+	 	\begin{align*}
+	 		\overline{r} = r_f +\frac{\overline{r}_M - r_F}{\sigma_M}\sigma
+	 	\end{align*}
+	 	
+	 \item \textbf{Capital Asset Pricing Model.} Assumed that 
+	 \begin{itemize}
+	 	\item All investors are Markowitz mean-variance investors
+	 	\item Shorting is allowed
+	 	\item There exists a risk-free asset
+	 	\item The investors share same predictions of means, variances and covariances
+	 \end{itemize}
+	 
+	 For the market portfolio $M$ is efficient, the expected return of $\overline{r}_i$ of any asset $i$ satisfies
+	 \begin{align*}
+	 	\overline{r}_i - r_F &= \beta_i (\overline{r}_M-r_f)\\
+	 	\beta_i &=\frac{\sigma_{iM}}{\sigma^2_M} = \frac{\sigma_{iM}}{\sigma_M\sigma_M}\frac{\sigma_i}{\sigma_i}= \left[\frac{\sigma_i}{\sigma_M}\right] \rho
+	 \end{align*}
+	 
+	Derivation of CAPM considers the following portfolio, where $\alpha$ will be set to 0
+	\begin{align*}
+		\bar{r}_\alpha 			&= \alpha\bar{r}_i + (1-\alpha) \bar{r}_M\\
+		\bar{\sigma}_\alpha	& = \left(\alpha^2 \sigma_i^2 +2\alpha (1-\alpha)\sigma_{iM} + (1-\alpha)^2 \sigma_M^2\right)^{\frac{1}{2}}
+	\end{align*}		
+		 
+	 Compute the following derivative and match it to the CML's slope $\frac{r_M -r_f}{\sigma_M}$
+	\begin{align*}
+		\frac{d\bar{r}_i}{d\sigma_i}= \frac{d \bar{r}_\alpha}{d \alpha}\frac{d\alpha}{d \sigma_\alpha}
+	\end{align*}
+	 
+	 Under equilibrium conditions assumed by CAPM, any assets should fall on the security market line.
+	 
+	 \item Importance of CAPM
+	 	\begin{itemize}
+	 		\item The correlation with the market determines the expected excess rate of return of an asset
+	 		\item The Capital Market Line relates the expected rate of return of an efficient portfolio to its standard deviation / risk.
+	 		\item The Security Market Line relates the expected rate of return of an in individual asset to its beta / systematic risk.
+	 	\end{itemize}
+	
+	 \item Proof of only systematic loss would be relevant
+	 \begin{align*}
+	 	r_i 					& = r_f + \beta_i (r_M - r_f )+ \epsilon_i\\
+	 	\sigma_{i}^2		& = \text{cov} \left(r_f + \beta_i (r_M - r_f )+ \epsilon_i, r_i\right)\\
+	 							& = \beta_i^2 \sigma^2_M + \sigma_{\epsilon_i}^2
+	 \end{align*}
+ 		
+		\item CAPM can be used as a pricing formula
+			\begin{align*}
+				\frac{\overline{P}_1 - P_0}{P_0} &=  r_f + \beta (\overline{r}_M - r_f)\\
+				P & = \frac{\overline{P}_1}{1+ r_f + \beta (\overline{r}_M - r_f)}
+			\end{align*}
+		
+		\item Certainty Equivalent form for CAPM
+		\begin{align*}
+			P_0 	&= \frac{\overline{P}_1 }{1+r_f + \beta (\overline{r}_M - r_f)}\\
+					& = \frac{1}{1+r_f}\left(\overline{P}_1 - \frac{\text{cov}(P, r_M)}{\sigma^2_M}(\overline{r}_M - r_f) \right)
+		\end{align*}
+		
+		We can hence use the NPV to evaluate projects
+		\begin{align*}
+			NPV = -P + \frac{1}{1+r_f}\left(\overline{P}_1 - \frac{\text{cov}(P, r_M)}{\sigma^2_M}(\overline{r}_M - r_f) \right)
+		\end{align*}				
+		
+		
+\end{enumerate}
+
+\newpage 
+
+\section{General Risk Principles}
+\subsection{Utility Functions}
+
+\begin{enumerate}
+\item The utility function is used to rank random wealth levels. It varies among decision makers, depending on their
+	\begin{itemize}
+		\item Risk tolerance
+		\item Individual financial environment
+	\end{itemize}
+
+\item Characteristic of utility functions:
+	\begin{itemize}
+		\item Define on the real line (possible wealth levels) and gives a real value
+		\item Invariant to affine transformation
+			\begin{align*}
+				U_1(x) = aU(x) + b \equiv U(x), \forall a>0.
+			\end{align*}				
+	\end{itemize}
+
+\item Some examples of utility functions:
+	\begin{align*}
+		U(x) & = - e^{-ax}, \forall a>0\\
+		U(x) & = \ln x, \forall x>0\\
+		U(x) & = bx^b, \forall b\leq 1, b\neq 0\\
+		U(x) & = x - bx^2, \forall b>0
+	\end{align*}
+	
+\end{enumerate}
+
+\subsection{Risk Aversion}
+\begin{enumerate}
+	\item \textbf{Definition.} A function $U: [a,b] \rightarrow \mathbb{R}$ is concave if for any $\alpha \in [0,1]$ and for any $x$ and $y$ in $[a,b]$ there holds 
+	\begin{align*}
+		U\left(\alpha x + (1-\alpha) y\right) \geq \alpha U(x)  + (1-\alpha) U(y)
+	\end{align*}
+
+	\item A utility is risk averse if it is concave on $[a,b]$
+
+	\item Properties of a utility function relating to its derivatives
+		\begin{itemize}
+			\item $U^\prime(x)>0$ because people are greedy bastards, so more will be better
+			\item $U^{\prime\prime}(x) < 0$  because people are risk-averse (marginal utility is lower as if existing wealth is large)
+		\end{itemize}
+
+	\item Arrow-Pratt absolute risk aversion 
+	\begin{align*}
+		a(x) = - \frac{U^{\prime\prime}(x)}{U^\prime(x)}
+	\end{align*}
+	
+		\begin{itemize}
+			\item $a(x)$ shows how risk-aversion changes with wealth
+			\item Risk aversion decreases as wealth grows
+			\item $a(x)$ is the same for all equivalent utility funcitons
+		\end{itemize}
+		
+	\item Certainty Equivalent: The certainty equivalent $C$ of a random wealth variable $x$ is the amount of certain (deterministic) wealth that has a utility level equal to the expected utility of $x$.
+	\begin{align*}
+		U(C) 	& = \mathbb{E}[U(x)]
+	\end{align*}
+	
+	\item Measurement of utility functions
+		\begin{enumerate}
+			\item Method I
+				\begin{itemize}
+					\item Select fixed wealth levels $A$ and $B$.
+					\item Propose a lottery that has outcome $A$ with probability $p$ and outcome $B$ with probability $1-p$.
+					\item For $p\in [0,1]$ the investor is asked how much certain wealth $C$ he or she would accept in place of the lottery
+				\end{itemize}
+										
+			\item Method II
+				\begin{itemize}
+					\item Select a parameterized family of utility functions
+					\item Then determine the parameter using the lottery as per Method I
+				\end{itemize}
+		\end{enumerate}			
+
+	\item Connection of Utility Function to Markowitz Model
+		\begin{align*}
+			U(x) 						& = ax -\frac{b}{2}x^2, \forall a,b,>0, x\leq \frac{a}{b}\\
+			\mathbb{E} [U(x)] & = a\mathbb{E}[x] -\frac{b}{2} \mathbb{E}[x^2]\\
+										& = a\mathbb{E}[x] -\frac{b}{2} \mathbb{V}[x] - \frac{b}{2} \mathbb{E}[x]^2
+		\end{align*}
+
+\end{enumerate}
+
+\subsection{Arbitrage}
+\begin{enumerate}
+\item Definition: A security is a random payoff variable $d$. The payoff is revealed and obtained at the end of the period. Associated with the security is a price P.
+
+\item Ideal Market:
+	\begin{itemize}
+		\item Securities can be arbitrarily divided
+		\item There are no transaction costs
+		\item Short sales is allowed
+	\end{itemize}
+
+\item Definition of Arbitrage:
+	\begin{itemize}
+	 	\item Type A: $P < 0$ and $d=0$
+	 	\item Type B: $P \leq 0$, $d \geq 0$ and $P(d>0)>0$
+	\end{itemize}
+
+\item Linearity of pricing
+	\begin{itemize}
+		\item The price of the sum of two securities is the sum of their prices.
+		\item The price of the multiple of an asset is the same multiple of the price. 
+	\end{itemize}
+
+\item Portfolio Problem
+	\begin{align*}
+		\max_{\theta \in \mathbb{R}^n} \text{  }		& \mathbb{E} [U(x)]\\
+		\text{subject to }											& \sum_{i=1}^n \theta_id_i = x\\
+																			& \sum_{i=1}^n \theta_iP_i \leq W. 
+	\end{align*}
+
+	Assume that $U(x)$ is continuous , $U(x) \rightarrow  +\infty$ as $x \rightarrow +\infty$, and there is a portfolio $\theta^0$ such that $\sum_{i=1}^n \theta_i^0 d_i >0$. Then:
+	\begin{align*}
+		\mathcal{P} \text{ has a solution} \Leftrightarrow \text{ there is no arbitrage possibility.}
+	\end{align*}
+
+	Consider instead a simplified problem 
+		\begin{align*}
+			\max_{\theta \in \mathbb{R}^n} 	& \text{ }\mathbb{E} \left[U\left(\sum_{i=1}^n \theta_id_i\right)	 \right]\\
+			\text{subject to }							& \sum_{i=1}^n \theta_iP_i = W
+		\end{align*}
+	
+	We can write the Lagrangian as 
+		\begin{align*}
+			L(\theta, \lambda) = \mathbb{E}\left[U\left(\sum_{i=1}^n \theta_id_i\right) \right] - \lambda \left(\sum_{i=1}^n \theta_i P_i - W\right)
+		\end{align*}
+		
+	Differentiating $L$ w.r.t $\theta_i$
+		\begin{align*}
+			\mathbb{E} \left[U^\prime (x^*)d_i\right] &= \lambda P_i, \forall i =1,\ldots,n\\
+			x^* & = \sum_{i=1}^n \theta_i^*d_i			
+		\end{align*}
+
+\item If $x^* = \sum_{i=1}^n \theta_i^* d_i $ solve $\mathcal{P}$ then
+	\begin{align*}
+		\mathbb{E} \left[U^\prime (x^*) d_i \right] = \lambda P_i
+	\end{align*}
+	
+		If there is a risk-free asset with total return $R$ 
+	\begin{align*}
+		\frac{U^\prime(x^*)d_i}{R \mathbb{E}\left[U^\prime(x^*)\right]}= P_i
+	\end{align*}		
+		
+	
+\end{enumerate}
+
+
+\section{Asset Price Dynamics}
+
+\begin{enumerate}
+	\item Additive Model:
+		\begin{align*}
+			S_(t+1)	 &= a S(t) + z(t), \forall t=0,1,\ldots, N\\
+			\mathbb{E}\left[S(t+k) \right] & = a^kS(t), \forall z(t) \sim \mathcal{N} (0, \sigma^2)
+		\end{align*}			
+		
+		Deficiencies of the model:
+		\begin{itemize}
+			\item For $a>0$ the expected value of the stock increase exponentially over time.
+			\item The model can give negative stock prices
+			\item The volatility $\sigma$ is not scaled to the stock price level. Price shocks are tend to be proportional to the stock price.
+		\end{itemize}
+	
+	\item Multiplicative Model:
+		\begin{align*}
+			\ln \frac{S(t+1)}{S(t)}	& = z(t)\\
+			S(t+k) 							& = S(t) \exp\left(\sum_{j=1}^k z(j)\right)\\
+			z(t)								& \sim \mathcal{N}(\mu, \sigma^2) \\
+			\ln S(t+k)						& \sim \mathcal{N} \left(S(t) + k\mu, k\sigma^2\right)
+		\end{align*}
+		
+		Properties and Justification of the log normal price model
+		\begin{itemize}
+			\item The expected value of the log returns increase linearly with time and the stock price is log-normally distributed
+			\item The prices cannot become negative.
+			\item The noise are i.i.d. and subject to finite variance.
+		\end{itemize}
+	
+	\item Properties of Log Normal Distribution
+	\begin{align*}
+		X \sim \ln \mathcal{N}(\mu, \sigma^2) & \Rightarrow \ln X \sim \mathcal{N}(\mu, \sigma^2) \\
+		\mathbb{E}[X] 	& = \exp\left(\mu+ \frac{\sigma^2}{2} \right)\\
+		\mathbb{V}[X] 	& =\left(\exp(\sigma^2) - 1\right) \exp\left(2\mu+ \sigma^2 \right)
+	\end{align*}
+
+	\item Random walk
+		\begin{align*}
+			z(t_{k+1}) - z(t_{k}) &= \epsilon (t_k) \sqrt{\Delta t}\\
+			t_{k+1} &= t_k +\Delta t, 0 \leq k <N \\
+			\epsilon (t_k) &\sim \mathcal{N}(0,1)\\
+		\end{align*}
+		
+		For $j<k$, we have
+		\begin{align*}
+			z(t_k) - z(t_{k-1}) &= \sum_{i=j}^{k-1} \epsilon (t_i)\sqrt{\Delta t}\\
+			z(t_k) - z(t_{k-1}) &\sim \mathcal{N} \left(0, t_k-t_j\right)
+		\end{align*}
+		
+	\item As $\Delta t \rightarrow 0$, we have Brownian motion
+		\begin{align*}
+			dz(t) & = \epsilon (t) \sqrt{dt}
+		\end{align*}
+		
+	\item Properties of Brownian Motion
+		\begin{itemize}
+			\item For all $s<t$, $z(t) - z(s) \sim \mathcal{N}(0, t-s)$
+			\item For all $t_1<t_2 \leq t_3 <t_e$, $z(t_2)-z(t_1)$ and $z(t_4)-z(t_3)$ are independent.
+			\item $z(0) =1$ almost surely.
+		\end{itemize}			
+
+	\item To calibrate the Binomial model to the geometric Brownian motion model, we match the expectation and the variance of the Brownian motion to that of the binomial model.
+		
+		\begin{align*}
+			S(t+\Delta t) &= S(t)e^{\Delta z(t)} , \Delta z(t) \sim \mathcal{N} (\nu\Delta t, \sigma^2\Delta t) \\
+			\mathbb{E}\left[ \ln \left(\frac{S(t+\Delta t)}{S(t)}\right)\right] & = p \ln u + (1-p) \ln d = \nu \Delta t\\
+			\mathbb{V}\left[\ln \left(\frac{S(t+\Delta t)}{S(t)}\right)\right] & = p (\ln u)^2 +  (1-p)(\ln d)^2 -  [p \ln u + (1-p) \ln d ]^2\\
+			& = p(1-p)(\ln u - \ln d)^2\\
+			& = \sigma^2 \Delta t
+		\end{align*}
+
+		Setting $u = 1/d$, 
+		\begin{align*}
+			p		& \approx \frac{1}{2} + \frac{1}{2} \left(\frac{\nu}{\sigma}\right)\sqrt{\Delta t}\\
+			\ln u	&  \approx \sigma\sqrt{\Delta t}\\
+			\ln d & 	\approx -\sigma\sqrt{\Delta t}
+		\end{align*}
+
+\end{enumerate}
+
+\newpage
+
+\section{Basic Options Theory}
+\subsection{General Options Related Theory}
+\begin{enumerate}
+
+	\item Put Call Parity 
+		\begin{align*}
+			C - P = S - Ke^{-T }
+		\end{align*}
+	
+	\end{enumerate}
+	
+\subsection{Binomial Pricing}
+
+\begin{enumerate}
+	\item Consider a single period binomial model, we have the following
+	\begin{align*}
+		S(t+1) = \begin{cases}
+		uS(t)\\
+		dS(t)
+		\end{cases}
+		&
+		C(t+1) = \begin{cases}
+		\max\left(uS(t)-K, 0\right)\\
+		\max\left(dS(t)-K, 0\right)
+		\end{cases}
+	\end{align*}
+
+	\item Construct a portfolio, $\Pi$ that buys $x$ units of underlying and $b$ amount in risk free bond
+	\begin{align*}
+		\Pi(t) 		& = xS(t) + b\\
+		\Pi(t+1)	& = \begin{cases}
+		xuS(t) + b(1+r)\\
+		xdS(t) + b(1+r)
+		\end{cases}
+	\end{align*}
+
+	We need the replicating portfolio to match the payoff of the derivative
+	\begin{align*}
+		C_u(t+1) &= xuS(t) + b(1+r) \\
+		C_d(t+1) &= xdS(t) + b(1+r)\\
+		x & = \frac{C_u(t+1) - C_d(t+1)}{uS(t) - dS(t)}\\
+		b &= \frac{uC_d - dC_u}{(1+r)(u-d)}
+	\end{align*}		
+
+	\begin{align*}
+		C(t) 	&= \Pi(t)  \\
+				& = \left(\frac{C_u(t+1) - C_d(t+1)}{uS(t) - dS(t)}\right)S(t) + \frac{uC_d(t+1) - dC_u(t+1)}{(1+r)(u-d)}\\
+				& = \frac{1}{1+r}\left[\frac{(1+r)-u}{u-d} C_u(t+1) + \frac{u-(1+r)}{u-d} C_d(t+1)\right]\\
+				& = \frac{1}{1+r}\left[\tilde{p} C_u(t+1) + (1-\tilde{p}) C_d(t+1)\right]\\
+	\end{align*}
+
+\end{enumerate}
+
+\subsection{American Option}	
+\begin{enumerate}
+	\item Recursion for American call options
+	\begin{align*}
+		C &= \max\left(S-K, \frac{qC_u + (1-q)C_d}{1+r}\right)\\
+		r & = \frac{(1+r)-d}{u-d}
+	\end{align*}
+
+	\item American call options on non-dividend paying stocks are never exercised early.
+	\begin{align*}
+		C_u 	& \geq S_u - K\\
+		C_d 	& \geq S_d - K\\
+		C		& \geq \frac{1}{1+r}\left(q(S_u-K) + (1-q)(S_d-K)\right)\\
+				& = \frac{1}{1+r}\left((qu +(1-q)d)S -K \right)\\
+				& = S - \frac{K}{R} \geq S-K
+	\end{align*}
+
+\end{enumerate}
+
+\subsection{General Risk-Neutral Pricing}
+Let $S$ be the underlying asset, and $f$ is a security whose cash flow $f_k$ at any time $k$ is only a function of the node at time $k$. The arbitrage free price of the security is
+\begin{align*}
+	f_{val} = \mathbb{E}_{\mathbb{Q}} \left(\sum_{k=0}^N f_k d_f\right)
+\end{align*}
+
+
+
+\end{document}
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
